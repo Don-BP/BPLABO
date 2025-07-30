@@ -588,12 +588,13 @@ button:disabled {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.2em; /* MODIFIED: Reduced gap to bring icon and name closer */
+    gap: 0.2em;
+    /* ADDED: Define this as a size container for its children */
+    container-type: inline-size;
 }
 .team-icon {
     width: 60px;
     height: 60px;
-    /* margin-bottom: 0.5em; -- MODIFIED: Removed this to reduce space */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -615,11 +616,12 @@ button:disabled {
     outline: 1px solid var(--brand-primary);
 }
 .scoreboard-grid-view .team-score {
-    font-size: 4em;
+    /* MODIFIED: Changed to a responsive font-size that fits the container */
+    font-size: clamp(2.5em, 35cqi, 4em);
     font-weight: bold;
     margin: 0.1em 0;
     line-height: 1;
-    margin-top: 0.4em; /* ADDED: Creates space above score, grouping icon/name */
+    margin-top: 0.4em;
 }
 .scoreboard-grid-view .scoreboard-teams .team:nth-child(1) .team-score { color: var(--team1-color); }
 .scoreboard-grid-view .scoreboard-teams .team:nth-child(2) .team-score { color: var(--team2-color); }
