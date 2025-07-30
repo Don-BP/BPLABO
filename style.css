@@ -589,7 +589,6 @@ button:disabled {
     flex-direction: column;
     align-items: center;
     gap: 0.2em;
-    /* ADDED: Define this as a size container for its children */
     container-type: inline-size;
 }
 .team-icon {
@@ -616,7 +615,6 @@ button:disabled {
     outline: 1px solid var(--brand-primary);
 }
 .scoreboard-grid-view .team-score {
-    /* MODIFIED: Changed to a responsive font-size that fits the container */
     font-size: clamp(2.5em, 35cqi, 4em);
     font-weight: bold;
     margin: 0.1em 0;
@@ -692,6 +690,7 @@ button:disabled {
     position: relative;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
+    container-type: inline-size; /* ADDED: Define this as a size container */
 }
 .fs-team-info {
     position: absolute;
@@ -718,7 +717,8 @@ button:disabled {
     text-align: center;
     font-weight: bold;
     line-height: 1;
-    font-size: clamp(4rem, 25vh, 18rem);
+    /* MODIFIED: Switched from viewport units (vh) to container query units (cqi) for robust scaling */
+    font-size: clamp(3rem, 45cqi, 18rem);
 }
 #scoreboard-fullscreen-view .team-1 .fs-team-score { color: var(--team1-color); }
 #scoreboard-fullscreen-view .team-2 .fs-team-score { color: var(--team2-color); }
@@ -1331,4 +1331,89 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
 }
 .tool-card.fullscreen-mode #dw-weather-text {
     font-size: 3em;
+}
+
+/* ========================================= */
+/* ---         MOBILE QUERIES            --- */
+/* ========================================= */
+
+/* Targeting tablets and smaller for responsive adjustments */
+@media (max-width: 768px) {
+
+    /* --- General Tool Card Adjustments --- */
+    .tool-container {
+        gap: 1.5em;
+        padding: 0.5em;
+    }
+    .tool-card {
+        padding: 1em;
+    }
+    .tool-card h2 {
+        width: calc(100% + 2em);
+        margin: -1em -1em 1em -1em;
+        font-size: 1.15em;
+    }
+    
+    /* --- Date & Weather (Fullscreen Mobile) --- */
+    .tool-card.fullscreen-mode#date-weather-tool .dw-main-content {
+        flex-direction: column; /* Stack vertically */
+        padding: 1em;
+        gap: 1em;
+    }
+    .tool-card.fullscreen-mode#date-weather-tool .dw-left-panel {
+        order: 2; /* Calendar goes to the bottom */
+        max-width: 100%;
+    }
+    .tool-card.fullscreen-mode#date-weather-tool .dw-right-panel {
+        order: 1; /* Date/Weather info goes to the top */
+        height: auto;
+        justify-content: flex-start;
+    }
+    /* Reduce font sizes for the top panel to fit */
+    .tool-card.fullscreen-mode #dw-month-display { font-size: 3em; }
+    .tool-card.fullscreen-mode #dw-day-display { font-size: 2em; }
+    .tool-card.fullscreen-mode #dw-date-display { font-size: 3.5em; }
+    .tool-card.fullscreen-mode #dw-time-display { font-size: 2em; }
+    /* Adjust weather display for vertical layout */
+    .tool-card.fullscreen-mode .dw-time-weather-row {
+        flex-direction: column;
+        gap: 1em;
+        margin-top: 1em;
+    }
+    .tool-card.fullscreen-mode #dw-weather-img {
+        width: 120px;
+        height: 120px;
+    }
+    .tool-card.fullscreen-mode #dw-weather-text {
+        font-size: 1.5em;
+    }
+
+    /* --- Random Name Picker (Fullscreen Mobile) --- */
+    .tool-card.fullscreen-mode .name-picker-content {
+        flex-direction: column; /* Stack vertically */
+        gap: 1em;
+    }
+    .tool-card.fullscreen-mode .name-picker-panel {
+        flex-basis: auto; /* Remove fixed width */
+        width: 100%;
+        height: auto;
+    }
+    .tool-card.fullscreen-mode #picked-name {
+        font-size: 5em; /* Reduce name size to fit screen */
+        min-height: 100px;
+    }
+
+    /* --- Digital Flashcards (Button Spacing) --- */
+    .flashcard-nav {
+        gap: 5px; /* Reduce space between button groups */
+        flex-wrap: wrap; /* Allow groups to stack if needed */
+        justify-content: center;
+    }
+    .flashcard-nav-single {
+        gap: 5px; /* Reduce space between individual buttons */
+    }
+    .flashcard-nav button {
+        padding: 8px 12px; /* Slightly smaller buttons */
+        margin: 2px;
+    }
 }
