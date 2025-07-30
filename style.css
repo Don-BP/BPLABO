@@ -1,0 +1,1332 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* New "Brain Power" Engaging Color Palette */
+    --brand-primary: #0077cc;        /* Strong, professional blue for headers & buttons */
+    --brand-primary-dark: #005fa3;  /* Darker blue for hover states */
+    --brand-primary-light: #52a8e8; /* Lighter blue for accents */
+    --body-bg-start: #eaf2fa;        /* Start of the background gradient (light blue) */
+    --body-bg-end: #d9e7f8;          /* End of the background gradient (deeper light blue) */
+    --surface-color: #ffffff;       /* Clean white for tool card content areas */
+    --text-color: #333333;          /* Dark grey for readable text */
+    --text-color-light: #555555;     /* Lighter text for secondary info */
+    --border-color: #d1d9e4;        /* A soft, coordinating grey-blue for borders */
+    
+    /* Accent Colors for UI states */
+    --accent-red: #e63946;
+    --accent-green: #2a9d8f;
+    --accent-orange: #fca311;
+    
+    /* Team Colors (unchanged, but noted for consistency) */
+    --team1-color: #0077cc;
+    --team2-color: #e63946;
+    --team3-color: #2a9d8f;
+    --team4-color: #fca311;
+
+    --border-radius: 8px;
+    --shadow-color: rgba(0, 95, 163, 0.15); /* Shadow based on primary dark blue */
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--body-bg-start);
+    background-image: linear-gradient(135deg, var(--body-bg-start) 0%, var(--body-bg-end) 100%);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2em;
+    padding: 1em 1em 0 1em;
+    width: 100%;
+    max-width: 1600px;
+}
+header h1 {
+    color: var(--brand-primary-dark);
+    margin: 0;
+}
+header p {
+    color: var(--text-color-light);
+}
+.tool-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2em;
+    width: 100%;
+    max-width: 1600px;
+    padding: 1em;
+}
+.tool-card {
+    position: relative;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tool-card h2 {
+    /* This creates the colorful header bar for each module */
+    width: calc(100% + 3em);
+    margin: -1.5em -1.5em 1.5em -1.5em;
+    padding: 0.75em 1.5em;
+    background-color: var(--brand-primary);
+    color: white;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    text-align: center;
+    font-size: 1.25em;
+}
+
+button, .button-like-label {
+    background-color: var(--brand-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover, .button-like-label:hover {
+    background-color: var(--brand-primary-dark);
+}
+button:active, .button-like-label:active {
+    transform: scale(0.98);
+}
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Random Name Picker --- */
+.name-picker-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
+}
+.tool-card.fullscreen-mode .name-picker-content {
+    flex-direction: row;
+    gap: 2em;
+    align-items: center;
+}
+.name-picker-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.class-list-manager {
+    display: flex;
+    width: 90%;
+    gap: 10px;
+    margin-bottom: 0.5em;
+    align-items: center;
+}
+.class-list-manager select {
+    flex-grow: 1;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+#delete-class-btn {
+    padding: 5px 10px;
+    background-color: var(--accent-red);
+    min-width: auto;
+    font-size: 1.2em;
+    line-height: 1;
+}
+#delete-class-btn:hover {
+    background-color: #c9302c;
+}
+.name-picker-controls {
+    display: flex;
+    gap: 10px;
+}
+.name-picker-options {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+.hidden {
+    display: none !important;
+}
+#picked-names-container {
+    width: 90%;
+    margin-top: 1em;
+    text-align: left;
+}
+#picked-names-container h4 {
+    margin: 0 0 0.5em 0;
+    color: var(--brand-primary-dark);
+}
+#picked-names-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 100px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+#picked-names-list li {
+    background-color: #eaf2fa;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+#name-list {
+    width: 90%;
+    height: 100px;
+    margin-bottom: 1em;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+.tool-card.fullscreen-mode .name-picker-panel {
+    flex-basis: 400px;
+    flex-shrink: 0;
+    height: 100%;
+}
+.tool-card.fullscreen-mode #name-list {
+    flex-grow: 1;
+}
+#picked-name {
+    font-size: 4.5em;
+    font-weight: bold;
+    color: var(--brand-primary-dark);
+    min-height: 60px;
+    text-align: center;
+    margin: 1em 0;
+    flex-grow: 1;
+}
+.tool-card.fullscreen-mode #picked-name {
+    font-size: 10em;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+/* Styles for the sequence status when moved to the top in fullscreen mode */
+.tool-card.fullscreen-mode #ir-sequence-status {
+    position: absolute;
+    top: 1.25em;  /* Aligned with the new exit button position */
+    right: 9em;  /* Positioned to the left of the exit button */
+    color: var(--text-color);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    z-index: 11;
+    pointer-events: none;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Fireworks Animation */
+.fireworks-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 2000;
+}
+.firework {
+    position: absolute;
+    opacity: 0;
+    animation: firework-show 2.5s forwards;
+}
+.firework > .particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: particle-fly 1.8s ease-out forwards;
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+}
+@keyframes firework-show {
+    0%, 100% { opacity: 0; }
+    30%, 80% { opacity: 1; }
+}
+@keyframes particle-fly {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: var(--transform-end);
+        opacity: 0;
+    }
+}
+
+/* --- Classroom Timer --- */
+#timer-display {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0.5em 0;
+    color: var(--brand-primary-dark);
+}
+.timer-controls button, .preset-timers button {
+    min-width: 60px;
+    padding: 10px 15px;
+}
+.preset-timers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.custom-timer-setter {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+    align-items: center;
+}
+#timer-custom-input {
+    width: 80px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 1em;
+}
+#timer-set-custom-btn {
+    padding: 8px 15px;
+    margin: 0;
+}
+.timer-layout-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+.timer-controls-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tool-card.fullscreen-mode .timer-layout-container.side-by-side-theme-active {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+.tool-card.fullscreen-mode .timer-controls-panel {
+    flex-shrink: 0;
+}
+.tool-card.fullscreen-mode .timer-visual-container {
+    flex-grow: 1;
+    height: 80%;
+}
+.tool-card.fullscreen-mode #timer-display {
+    font-size: 8em;
+}
+.timer-visual-container {
+    width: 100%;
+    margin-top: 1em;
+    min-height: 200px;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+}
+.timer-theme {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.timer-theme.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Bar Theme */
+#timer-progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1em;
+}
+#timer-progress {
+    width: 100%;
+    height: 100%;
+    background-color: var(--accent-green);
+    transition: width 0.5s linear;
+}
+
+/* Water Bucket Theme */
+.bucket-container {
+    width: 150px;
+    height: 200px;
+    margin: 0 auto;
+    border: 5px solid #8B4513;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    background-color: #f0e6d2;
+    overflow: hidden;
+}
+.tool-card.fullscreen-mode .bucket-container {
+    width: 250px;
+    height: 350px;
+}
+.water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--brand-primary-light);
+    border-radius: 0 0 15px 15px;
+    transition: height 0.5s linear;
+}
+
+/* --- Digital Flashcards --- */
+#flashcard-display-container {
+    width: 90%;
+    flex-grow: 1; 
+    min-height: 200px;
+    margin: 1em 0;
+    position: relative; 
+    display: flex;
+}
+#flashcard-display {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.flashcard-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed var(--brand-primary-light);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.flashcard-face.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+}
+.tool-card.fullscreen-mode #flashcard-display-container {
+    height: auto; 
+    flex-grow: 1;
+    font-size: 1.5em;
+}
+#flashcard-display img, .whats-missing-card img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+    min-height: 0;
+}
+.whats-missing-card span {
+    font-size: 1em;
+}
+.flashcard-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+#flashcard-category {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.flashcard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.tool-card.grid-view-active .flashcard-nav {
+    justify-content: flex-end;
+}
+
+/* --- Grid View & Flip Animation Styles --- */
+.flashcard-nav-single, .flashcard-nav-toggle {
+    display: flex;
+    gap: 10px;
+}
+#flashcard-show-all-toggle {
+    background-color: var(--accent-green);
+}
+#flashcard-show-all-toggle:hover {
+    background-color: #21867a;
+}
+#flashcard-grid-view {
+    width: 90%;
+    flex-grow: 1;
+    min-height: 200px;
+    margin: 1em 0;
+    display: grid;
+    gap: 10px;
+}
+.tool-card.grid-view-active #flashcard-display-container,
+.tool-card.grid-view-active .flashcard-nav-single {
+    display: none;
+}
+.tool-card:not(.grid-view-active) #flashcard-grid-view {
+    display: none;
+}
+.tool-card.fullscreen-mode #flashcard-grid-view {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    margin: 0;
+}
+
+/* 3D Flip Card Styles */
+.flashcard-grid-item {
+    background-color: transparent;
+    perspective: 1000px;
+    cursor: pointer;
+}
+.fgi-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+.flashcard-grid-item.is-flipped .fgi-inner {
+    transform: rotateY(180deg);
+}
+.fgi-front, .fgi-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+.fgi-front {
+    border: 2px solid var(--brand-primary-light);
+    background-color: var(--surface-color);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.fgi-front img {
+    max-width: 100%;
+    max-height: 75%;
+    object-fit: contain;
+    margin-bottom: 5px;
+    min-height: 0;
+}
+.fgi-front div {
+    font-weight: bold;
+    word-break: break-word;
+}
+.fgi-back {
+    background-color: var(--brand-primary);
+    transform: rotateY(180deg);
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--surface-color);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* --- Scoreboard Styles --- */
+.scoreboard-grid-view {
+    width: 100%;
+}
+.scoreboard-grid-view .scoreboard-teams {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 1em;
+    text-align: center;
+    gap: 1em;
+}
+.scoreboard-grid-view .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    flex-grow: 1;
+}
+.team-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    line-height: 1;
+    background-color: #eaf2fa;
+    border-radius: 50%;
+}
+.scoreboard-grid-view .team h3 {
+    margin: 0;
+    font-size: 1.1em;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+}
+.scoreboard-grid-view .team h3:hover,
+.scoreboard-grid-view .team h3:focus {
+    background-color: #eaf2fa;
+    outline: 1px solid var(--brand-primary);
+}
+.scoreboard-grid-view .team-score {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0.1em 0;
+    line-height: 1;
+}
+.scoreboard-grid-view .scoreboard-teams .team:nth-child(1) .team-score { color: var(--team1-color); }
+.scoreboard-grid-view .scoreboard-teams .team:nth-child(2) .team-score { color: var(--team2-color); }
+.scoreboard-grid-view .scoreboard-teams .team:nth-child(3) .team-score { color: var(--team3-color); }
+.scoreboard-grid-view .scoreboard-teams .team:nth-child(4) .team-score { color: var(--team4-color); }
+
+.scoreboard-grid-view .score-controls {
+    display: flex;
+    gap: 5px;
+}
+.scoreboard-grid-view .score-controls button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.5em;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+}
+
+#reset-scores {
+    background-color: #777;
+}
+#reset-scores:hover {
+    background-color: #666;
+}
+
+/* Scoreboard Fullscreen */
+.tool-card.fullscreen-mode .scoreboard-grid-view {
+    display: none;
+}
+#scoreboard-fullscreen-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+#scoreboard-fullscreen-view {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1em;
+    width: 100%;
+    padding: 1em;
+}
+#scoreboard-fullscreen-controls {
+    flex-shrink: 0;
+    padding: 1em;
+    text-align: center;
+}
+#fs-reset-scores-btn {
+    background-color: #777;
+    padding: 10px 30px;
+    font-size: 1.2em;
+}
+#fs-reset-scores-btn:hover {
+    background-color: #666;
+}
+
+.fs-team-card {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.fs-team-info {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    background: rgba(255,255,255,0.8);
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    z-index: 2;
+}
+.fs-team-icon {
+    font-size: 100px;
+    line-height: 1;
+}
+.fs-team-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.fs-team-score {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1;
+    font-size: clamp(4rem, 25vh, 18rem);
+}
+#scoreboard-fullscreen-view .team-1 .fs-team-score { color: var(--team1-color); }
+#scoreboard-fullscreen-view .team-2 .fs-team-score { color: var(--team2-color); }
+#scoreboard-fullscreen-view .team-3 .fs-team-score { color: var(--team3-color); }
+#scoreboard-fullscreen-view .team-4 .fs-team-score { color: var(--team4-color); }
+
+/* Fullscreen Score Buttons */
+.fs-score-controls {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    display: flex;
+    gap: 0.75em;
+    z-index: 2;
+}
+.fs-score-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid white;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+.fs-score-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+.fs-score-btn.plus {
+    background-color: var(--accent-green);
+}
+.fs-score-btn.minus {
+    background-color: var(--accent-red);
+}
+
+/* --- What's Missing Game --- */
+#whats-missing-status {
+    font-weight: bold;
+    min-height: 24px;
+    color: var(--brand-primary-dark);
+}
+.whats-missing-grid {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    min-height: 200px;
+    margin: 1em 0;
+    cursor: pointer;
+    grid-auto-rows: 1fr;
+}
+.tool-card.fullscreen-mode .whats-missing-grid {
+    flex-grow: 1;
+}
+.whats-missing-grid.count-4 {
+    grid-template-columns: repeat(2, 1fr);
+}
+.whats-missing-grid.count-6 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.whats-missing-grid.count-9 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.whats-missing-card {
+    border: 2px solid var(--brand-primary-light);
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    font-size: 1.2em;
+    text-align: center;
+    background-color: var(--surface-color);
+    transition: opacity 0.5s, background-color 0.5s, transform 0.5s;
+    overflow: hidden;
+}
+.wm-settings {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1em;
+}
+.whats-missing-card.wm-invisible {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95); 
+}
+.whats-missing-card.revealed {
+    background-color: var(--accent-orange);
+    color: white;
+}
+
+/* --- Image Reveal Game --- */
+.ir-setup-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1em;
+    width: 100%;
+}
+.ir-option, .ir-custom-grid-inputs, .ir-custom-speed-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.ir-setup-controls select, .ir-setup-controls input {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+.ir-custom-grid-inputs input, .ir-custom-speed-input input {
+    width: 70px;
+}
+.ir-game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1em;
+}
+.ir-game-area {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+#ir-image-container {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 1em;
+}
+#ir-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    visibility: hidden;
+}
+#ir-grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+.ir-grid-tile {
+    background-color: var(--brand-primary);
+    border: 1px solid white;
+    transition: opacity 0.4s ease-in-out;
+}
+.ir-grid-tile.revealed {
+    opacity: 0;
+    pointer-events: none;
+}
+#ir-status-bar {
+    color: var(--text-color-light);
+    font-weight: bold;
+    min-height: 1.2em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#ir-sequence-status {
+    color: var(--brand-primary);
+}
+.tool-card.fullscreen-mode .ir-game-area {
+    justify-content: center;
+}
+
+/* --- Bingo Picker --- */
+.bingo-controls-panel { width: 100%; text-align: center; flex-shrink: 0; margin-bottom: 1em; }
+.bingo-source-select { margin-bottom: 0.5em; }
+#bingo-list-select { width: 100%; max-width: 400px; padding: 5px; border-radius: 5px; border: 1px solid var(--border-color); }
+#bingo-list-input { width: 100%; max-width: 400px; height: 100px; margin-bottom: 1em; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; }
+.bingo-buttons { display: flex; gap: 10px; justify-content: center; }
+.bingo-display-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+    flex-grow: 1;
+    min-height: 0;
+}
+#bingo-picked-item-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    min-height: 0; 
+}
+.bingo-image-wrapper {
+    flex-grow: 1;
+    position: relative;
+    width: 100%;
+    min-height: 0; 
+}
+#bingo-picked-item-display img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+}
+#bingo-picked-item-display div {
+    flex-shrink: 0; 
+}
+#bingo-picked-container {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1em;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+#bingo-picked-container h4 { margin: 0 0 0.5em 0; color: var(--brand-primary-dark); }
+#bingo-picked-list {
+    padding: 10px;
+    margin: 0;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    background-color: #eaf2fa;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+.bingo-picked-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    font-size: 0.9em;
+    text-align: center;
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.bingo-picked-card img { height: 60px; max-width: 100%; object-fit: contain; }
+.bingo-picked-card span { font-weight: bold; }
+@media (min-width: 1200px) {
+    .bingo-display-area { flex-direction: row; }
+    #bingo-picked-item-display { font-size: 4em; }
+}
+
+/* --- Flashcard Manager --- */
+.flashcard-manager-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+.fm-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.fm-row input, .fm-row select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+.fm-row input[type="text"], .fm-row select {
+    flex-grow: 1;
+}
+#fm-export-btn {
+    background-color: var(--accent-green); 
+}
+#fm-export-btn:hover {
+    background-color: #21867a;
+}
+#fm-import-label {
+    background-color: var(--accent-orange); 
+}
+#fm-import-label:hover {
+    background-color: #e4930e;
+}
+
+#fm-current-cards {
+    width: 100%;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #eaf2fa;
+}
+.fm-card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background-color: var(--surface-color);
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+.fm-card-item button { 
+    font-size: 0.8em; 
+    padding: 2px 6px; 
+    background-color: var(--accent-red);
+    min-width: auto;
+    margin: 0;
+}
+
+/* --- Fullscreen Mode --- */
+.fullscreen-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 8px;
+    font-size: 1.2em;
+    line-height: 1;
+    min-width: auto;
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    z-index: 10;
+}
+.fullscreen-btn:hover {
+    background-color: rgba(255,255,255,0.4);
+}
+
+.tool-card.fullscreen-mode .fullscreen-btn {
+    top: 1em;
+    right: 1em;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid #aaa;
+    color: var(--text-color);
+    white-space: nowrap;
+}
+.tool-card.fullscreen-mode .fullscreen-btn:hover {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.tool-card.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    margin: 0;
+    border-radius: 0;
+    overflow: auto; 
+    padding: 1.5em; 
+    background-color: var(--surface-color); 
+}
+.tool-card.fullscreen-mode > h2 {
+    display: none; /* Hide header bar in fullscreen to maximize space */
+}
+.tool-card.fullscreen-mode#scoreboard-tool {
+    padding: 0;
+    overflow: hidden;
+}
+
+
+body.has-fullscreen-tool {
+    overflow: hidden; 
+}
+body.has-fullscreen-tool header,
+body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
+    display: none; 
+}
+
+/* --- Audio Controls --- */
+#mute-btn {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    color: #888;
+    margin: 0;
+}
+#mute-btn:hover {
+    color: var(--brand-primary);
+    background: none;
+}
+
+
+/* --- Date & Weather --- */
+.dw-main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5em;
+}
+.dw-left-panel, .dw-right-panel {
+    width: 100%;
+}
+.dw-calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+#dw-calendar-header {
+    color: var(--brand-primary-dark);
+    margin: 0;
+    font-size: 1.2em;
+}
+#dw-prev-month-btn, #dw-next-month-btn {
+    padding: 4px 12px;
+}
+#dw-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+.dw-day-name, .dw-date-cell {
+    padding: 8px 0;
+    font-weight: bold;
+    border-radius: 4px;
+}
+.dw-day-name {
+    color: var(--text-color-light);
+    font-size: 0.9em;
+}
+.dw-date-cell {
+    background-color: #eaf2fa;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+.dw-date-cell:not(.empty):hover {
+    background-color: var(--border-color);
+}
+.dw-date-cell.empty {
+    background-color: transparent;
+    cursor: default;
+}
+.dw-date-cell.current-day {
+    background-color: var(--accent-orange);
+    color: white;
+}
+.dw-date-cell.selected-day {
+    background-color: var(--brand-primary);
+    color: white;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--brand-primary);
+    transform: scale(1.05);
+}
+.dw-right-panel {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#date-weather-tool:not(.fullscreen-mode) #dw-month-display,
+#date-weather-tool:not(.fullscreen-mode) .dw-day-date-row {
+    display: none;
+}
+
+#dw-month-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--brand-primary-dark);
+}
+.dw-day-date-row {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 1em;
+    margin: 0.5em 0;
+}
+#dw-day-display {
+    font-size: 2em;
+    color: var(--text-color-light);
+}
+#dw-date-display {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: var(--brand-primary-dark);
+}
+#dw-date-display sup {
+    font-size: 0.5em;
+    vertical-align: super;
+}
+#dw-time-display {
+    font-size: 1.5em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--surface-color);
+    color: var(--brand-primary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 2px solid var(--brand-primary-light);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+
+.dw-time-weather-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+    margin-top: 1em;
+}
+
+#dw-weather-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+.dw-weather-controls {
+    margin-bottom: 0.5em;
+}
+.dw-weather-controls select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+#dw-weather-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+#dw-weather-text {
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Fullscreen Date & Weather */
+.tool-card.fullscreen-mode#date-weather-tool .dw-main-content {
+    flex-direction: row;
+    height: 100%;
+    padding: 2em;
+    align-items: stretch;
+}
+.tool-card.fullscreen-mode#date-weather-tool {
+    padding: 0;
+}
+.tool-card.fullscreen-mode#date-weather-tool .dw-left-panel {
+    flex: 1 1 45%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+#dw-calendar-grid {
+    flex-grow: 1; 
+}
+.tool-card.fullscreen-mode#date-weather-tool .dw-right-panel {
+    flex: 1 1 55%;
+    justify-content: center;
+    height: 100%;
+}
+.tool-card.fullscreen-mode #dw-month-display {
+    font-size: 7em;
+}
+.tool-card.fullscreen-mode #dw-day-display {
+    font-size: 6em;
+}
+.tool-card.fullscreen-mode #dw-date-display {
+    font-size: 8em;
+}
+.tool-card.fullscreen-mode #dw-time-display {
+    font-size: 4em;
+    padding: 10px 25px;
+}
+.tool-card.fullscreen-mode #dw-weather-img {
+    width: 250px;
+    height: 250px;
+}
+.tool-card.fullscreen-mode #dw-weather-text {
+    font-size: 3em;
+}
