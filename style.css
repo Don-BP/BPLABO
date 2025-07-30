@@ -655,6 +655,8 @@ button:disabled {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    flex: 1; /* ADDED: Makes this container fill the tool-card */
+    min-height: 0; /* ADDED: Important for nested flex layouts */
 }
 #scoreboard-fullscreen-view {
     flex-grow: 1;
@@ -1098,14 +1100,15 @@ button:disabled {
     top: 0;
     left: 0;
     width: 100vw;
-    /* FIX: Use dynamic viewport height to account for mobile browser UI */
-    height: 100dvh;
+    height: 100dvh; /* Use dynamic viewport height */
     z-index: 1000;
     margin: 0;
     border-radius: 0;
     overflow: auto; 
     padding: 1.5em; 
     background-color: var(--surface-color); 
+    display: flex; /* ADDED */
+    flex-direction: column; /* ADDED */
 }
 .tool-card.fullscreen-mode > h2 {
     display: none; /* Hide header bar in fullscreen to maximize space */
@@ -1364,15 +1367,11 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
         height: 100%;
     }
     .tool-card.fullscreen-mode#date-weather-tool .dw-left-panel {
-        order: 2; /* Calendar goes to the bottom */
-        max-width: 100%;
-        flex: 0 1 auto;
+        flex: 1 1 auto; /* Allow this panel to grow and shrink */
+        min-height: 0; /* Critical for flex-shrink to work correctly */
     }
     .tool-card.fullscreen-mode#date-weather-tool .dw-right-panel {
-        order: 1; /* Date/Weather info goes to the top */
-        height: auto;
-        justify-content: center;
-        flex: 1 1 auto;
+        flex-shrink: 0; /* Prevent the top panel from being squished */
     }
     .tool-card.fullscreen-mode#date-weather-tool #dw-month-display { font-size: clamp(2em, 8vw, 3em); }
     .tool-card.fullscreen-mode#date-weather-tool #dw-day-display { font-size: clamp(1.5em, 7vw, 2em); }
@@ -1418,6 +1417,13 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
     }
 
     /* --- Digital Flashcards (Button Spacing) --- */
+    .tool-card.fullscreen-mode #flashcard-grid-view {
+        flex: 1; /* Allow the grid to take all available vertical space */
+        min-height: 0; /* Allow the grid to shrink if needed */
+    }
+    .tool-card.fullscreen-mode .flashcard-nav {
+        flex-shrink: 0; /* Prevent nav buttons from being pushed off-screen */
+    }
     .flashcard-nav {
         gap: 5px;
         flex-wrap: wrap;
