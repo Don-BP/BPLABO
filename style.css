@@ -487,7 +487,7 @@ button:disabled {
 /* --- Grid View & Flip Animation Styles --- */
 .flashcard-nav-single, .flashcard-nav-toggle {
     display: flex;
-    gap: 10px;
+    gap: 5px; /* MODIFIED: Reduced gap for tighter button packing */
 }
 #flashcard-show-all-toggle {
     background-color: var(--accent-green);
@@ -690,7 +690,7 @@ button:disabled {
     position: relative;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
-    container-type: inline-size; /* ADDED: Define this as a size container */
+    container-type: inline-size; /* FIX: Enable container queries */
 }
 .fs-team-info {
     position: absolute;
@@ -717,7 +717,7 @@ button:disabled {
     text-align: center;
     font-weight: bold;
     line-height: 1;
-    /* MODIFIED: Switched from viewport units (vh) to container query units (cqi) for robust scaling */
+    /* FIX: Use container-relative units (cqi) instead of viewport units (vh) */
     font-size: clamp(3rem, 45cqi, 18rem);
 }
 #scoreboard-fullscreen-view .team-1 .fs-team-score { color: var(--team1-color); }
@@ -1337,7 +1337,6 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
 /* ---         MOBILE QUERIES            --- */
 /* ========================================= */
 
-/* Targeting tablets and smaller for responsive adjustments */
 @media (max-width: 768px) {
 
     /* --- General Tool Card Adjustments --- */
@@ -1354,41 +1353,40 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
         font-size: 1.15em;
     }
     
-    /* --- Date & Weather (Fullscreen Mobile) --- */
+    /* --- FIX: Date & Weather (Fullscreen Mobile) --- */
     .tool-card.fullscreen-mode#date-weather-tool .dw-main-content {
         flex-direction: column; /* Stack vertically */
         padding: 1em;
         gap: 1em;
+        justify-content: space-between;
     }
     .tool-card.fullscreen-mode#date-weather-tool .dw-left-panel {
         order: 2; /* Calendar goes to the bottom */
         max-width: 100%;
+        flex: 0 1 auto; /* Don't grow, just take space needed */
     }
     .tool-card.fullscreen-mode#date-weather-tool .dw-right-panel {
         order: 1; /* Date/Weather info goes to the top */
         height: auto;
         justify-content: flex-start;
+        flex: 1 1 auto;
     }
-    /* Reduce font sizes for the top panel to fit */
-    .tool-card.fullscreen-mode #dw-month-display { font-size: 3em; }
-    .tool-card.fullscreen-mode #dw-day-display { font-size: 2em; }
-    .tool-card.fullscreen-mode #dw-date-display { font-size: 3.5em; }
-    .tool-card.fullscreen-mode #dw-time-display { font-size: 2em; }
-    /* Adjust weather display for vertical layout */
-    .tool-card.fullscreen-mode .dw-time-weather-row {
+    .tool-card.fullscreen-mode#date-weather-tool #dw-month-display { font-size: clamp(2em, 8vw, 3em); }
+    .tool-card.fullscreen-mode#date-weather-tool #dw-day-display { font-size: clamp(1.5em, 7vw, 2em); }
+    .tool-card.fullscreen-mode#date-weather-tool #dw-date-display { font-size: clamp(2.5em, 10vw, 3.5em); }
+    .tool-card.fullscreen-mode#date-weather-tool #dw-time-display { font-size: clamp(1.5em, 8vw, 2em); }
+    .tool-card.fullscreen-mode#date-weather-tool .dw-time-weather-row {
         flex-direction: column;
         gap: 1em;
         margin-top: 1em;
     }
-    .tool-card.fullscreen-mode #dw-weather-img {
-        width: 120px;
-        height: 120px;
+    .tool-card.fullscreen-mode#date-weather-tool #dw-weather-img {
+        width: 80px;
+        height: 80px;
     }
-    .tool-card.fullscreen-mode #dw-weather-text {
-        font-size: 1.5em;
-    }
+    .tool-card.fullscreen-mode#date-weather-tool #dw-weather-text { font-size: 1.5em; }
 
-    /* --- Random Name Picker (Fullscreen Mobile) --- */
+    /* --- FIX: Random Name Picker (Fullscreen Mobile) --- */
     .tool-card.fullscreen-mode .name-picker-content {
         flex-direction: column; /* Stack vertically */
         gap: 1em;
@@ -1399,21 +1397,43 @@ body.has-fullscreen-tool .tool-container > .tool-card:not(.fullscreen-mode) {
         height: auto;
     }
     .tool-card.fullscreen-mode #picked-name {
-        font-size: 5em; /* Reduce name size to fit screen */
+        font-size: 5em;
         min-height: 100px;
+        flex-grow: 1; /* Allow it to take available space */
+    }
+    .class-list-manager {
+        width: 100%; /* Allow dropdown to use full width */
+    }
+    #name-list {
+        width: 100%; /* Allow textarea to use full width */
     }
 
-    /* --- Digital Flashcards (Button Spacing) --- */
+    /* --- FIX: Digital Flashcards (Button Spacing) --- */
     .flashcard-nav {
         gap: 5px; /* Reduce space between button groups */
         flex-wrap: wrap; /* Allow groups to stack if needed */
         justify-content: center;
     }
-    .flashcard-nav-single {
-        gap: 5px; /* Reduce space between individual buttons */
-    }
     .flashcard-nav button {
-        padding: 8px 12px; /* Slightly smaller buttons */
+        padding: 8px 12px;
         margin: 2px;
+    }
+
+    /* --- FIX: Scoreboard Fullscreen Mobile --- */
+    #scoreboard-fullscreen-view {
+        gap: 0.5em;
+        padding: 0.5em;
+    }
+    .fs-team-info {
+        padding: 0.3em 0.8em;
+        gap: 0.5em;
+    }
+    .fs-team-name {
+        font-size: 1em;
+    }
+    .fs-score-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.8em;
     }
 }
